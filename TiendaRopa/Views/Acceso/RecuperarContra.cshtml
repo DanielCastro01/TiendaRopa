@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link href="~/Content/Login.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2 class="login-title">Verificar código</h2> @*formato de titulo*@
+        <form action="@Url.Action("RecuperarContra","Acceso")" method="post">
+
+            <div class="input-group">
+                <label for="Actual">Codigo de Recuperacion</label>
+                <input type="text" id="Codigo" name="Codigo" placeholder="Ingresa el código recibido" required />
+            </div>
+
+            <button id="btnVerificarCodigo" class="btn-login">Verificar</button>
+
+            @{
+                if (ViewBag.Error != null)
+                {
+                    <div class="input-error">
+                        <div class="alert alert-danger" role="alert">
+                            @ViewBag.Error
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </form>
+
+            <div class="card-footer text-center py-3">
+                <div class="small"><a href="@Url.Action("Index","Acceso")">Volver</a></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+</body>
+</html>

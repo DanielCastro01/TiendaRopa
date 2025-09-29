@@ -1,0 +1,3 @@
+Update-Package -reinstall
+
+Install-Package Microsoft.CodeDom.Providers.DotNetCompilerPlatform

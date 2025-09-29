@@ -1,0 +1,97 @@
+﻿using Entidades;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace DAO
+{
+    public class DAOReporte
+    {
+        public Dashboard VerDashboard()
+        {
+            Dashboard objeto = new Dashboard();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.ruta))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ReporteDashboard", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            objeto = new Dashboard()
+                            {
+                                TotalCliente = Convert.ToInt32(dr["TotalClientes"]),
+                                TotalVenta = Convert.ToInt32(dr["TotalVentas"]),
+                                TotalProducto = Convert.ToInt32(dr["TotalProductos"]),
+
+                            };
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                objeto = new Dashboard();
+            }
+
+            return objeto;
+        }
+
+
+
+        public List<Reporte> Ventas(string fechainicio, string fechafin, int idventa)
+        {
+            List<Reporte> lista = new List<Reporte>();
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(Conexion.ruta))
+                {
+
+                    SqlCommand cmd = new SqlCommand("sp_ReporteVentas", cn);
+                    cmd.Parameters.Add("fechainicio", SqlDbType.Date).Value = DateTime.Parse(fechainicio);
+                    cmd.Parameters.Add("fechafin", SqlDbType.Date).Value = DateTime.Parse(fechafin);
+                    cmd.Parameters.Add("idVenta", SqlDbType.Int).Value = idventa;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+
+                            lista.Add(
+                                new Reporte()
+                                {
+                                    IdVenta = Convert.ToInt32(dr["id_venta"]),
+                                    FechaVenta = dr["fecha"].ToString(),
+                                    Cliente = dr["Nombre_Clientes"].ToString(),
+                                    Producto = dr["PRODUCTO"].ToString(),
+                                    Precio = Convert.ToDecimal(dr["precio_producto"]),
+                                    Cantidad = Convert.ToInt32(dr["cantidad_dt"]),
+                                    Total = Convert.ToDecimal(dr["total_vt"]),
+                                }
+                                );
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lista = new List<Reporte>();
+            }
+
+            return lista;
+        }
+
+
+    }
+}

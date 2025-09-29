@@ -1,0 +1,67 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link href="~/Content/Login.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2 class="login-title">Cambiar Contraseña</h2>
+            <form action="@Url.Action("Restablecer","Acceso")" method="post">
+
+                <div class="input-group">
+                    <label for="Actual">Contraseña Actual</label>
+                    <input type="password" id="actual" name="actual" autocomplete="off" value="@ViewData["Vclave"]" required />
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Contraseña Nueva</label>
+                    <input type="password" id="nueva" name="nueva" autocomplete="off" required />
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Confirmar Contraseña</label>
+                    <input type="password" id="confirmarclave" name="confirmarclave" autocomplete="off" required />
+                </div>
+                @{
+                    if (ViewBag.Error != null)
+                    {
+                        <div class="input-error">
+                            <div class="alert alert-danger" role="alert">
+                                @ViewBag.Error
+                            </div>
+                        </div>
+                    }
+                }
+                
+                <button type="submit" class="btn-login">Cambiar Contraseña</button>
+
+                @{
+                    if (ViewBag.Mensaje != null)
+                    {
+                        <div class="input-error">
+                            <div class="alert alert-success"  role="alert">
+                                @ViewBag.Mensaje
+                            </div>
+                        </div>
+                    }
+                }
+            </form>
+            <div class="card-footer text-center py-3">
+                <div class="small"><a href="@Url.Action("Index","Acceso")">Volver</a></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+</body>
+</html>
