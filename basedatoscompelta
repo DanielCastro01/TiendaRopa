@@ -1,0 +1,714 @@
+USE [bdsistemaventas]
+GO
+/****** Object:  Table [dbo].[categorias]    Script Date: 28/9/2025 14:34:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[categorias](
+	[id_categoria] [int] IDENTITY(1,1) NOT NULL,
+	[nombre_categoria] [varchar](500) NOT NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_categoria] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[nombre_categoria] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[clientes]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[clientes](
+	[id_cliente] [int] IDENTITY(1,1) NOT NULL,
+	[nombre_cliente] [varchar](100) NULL,
+	[dni_cliente] [varchar](45) NULL,
+	[apellido_cliente] [varchar](45) NULL,
+	[sexo_cliente] [varchar](45) NULL,
+	[fechaNacimiento_cliente] [date] NULL,
+	[telefono_cliente] [varchar](20) NULL,
+	[direccion_cliente] [varchar](max) NULL,
+	[nombre_usuario_cliente] [varchar](100) NOT NULL,
+	[email_usuario_cliente] [varchar](100) NOT NULL,
+	[contraseña_usuario_cliente] [varchar](100) NOT NULL,
+	[id_provincia_cliente] [int] NULL,
+	[id_localidad_cliente] [int] NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_cliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[email_usuario_cliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[nombre_usuario_cliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[detalle_ventas]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[detalle_ventas](
+	[id_detalle] [int] IDENTITY(1,1) NOT NULL,
+	[id_venta_dt] [int] NULL,
+	[id_producto_dt] [int] NULL,
+	[cantidad_dt] [int] NOT NULL,
+	[precio_unitario_dt] [decimal](10, 2) NOT NULL,
+	[subtotal_dt] [decimal](10, 2) NOT NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_detalle] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[localidades]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[localidades](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id_provincia] [int] NOT NULL,
+	[localidad] [varchar](255) NOT NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[pagos]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[pagos](
+	[id_pago] [int] IDENTITY(1,1) NOT NULL,
+	[id_venta] [int] NULL,
+	[metodo_pago] [int] NOT NULL,
+	[estado] [varchar](20) NOT NULL,
+	[fecha_pago] [datetime] NULL,
+	[total_pagado] [decimal](10, 2) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_pago] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[productos]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[productos](
+	[id_producto] [int] IDENTITY(1,1) NOT NULL,
+	[nombre_producto] [varchar](100) NOT NULL,
+	[descripcion_producto] [varchar](max) NULL,
+	[precio_producto] [decimal](10, 2) NOT NULL,
+	[stock_producto] [int] NOT NULL,
+	[id_categoria_producto] [int] NULL,
+	[id_temporada_producto] [int] NULL,
+	[imagen_producto] [varchar](255) NULL,
+	[URL_Imagen] [varchar](255) NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_producto] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[provincias]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[provincias](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[provincia] [varchar](255) NOT NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Temporadas]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Temporadas](
+	[id_Temporada] [int] IDENTITY(1,1) NOT NULL,
+	[nombre_Temporada] [varchar](500) NOT NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_Temporada] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[nombre_Temporada] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[usuarios]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[usuarios](
+	[id_usuario] [int] IDENTITY(1,1) NOT NULL,
+	[nombre_usuario] [varchar](100) NOT NULL,
+	[email_usuario] [varchar](100) NOT NULL,
+	[contraseña_usuario] [varchar](100) NOT NULL,
+	[admin_Usuario] [bit] NULL,
+	[Estado] [bit] NULL,
+	[codigo_recuperacion] [varchar](10) NULL,
+	[fecha_codigo] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_usuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[email_usuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[nombre_usuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ventas]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ventas](
+	[id_venta] [int] IDENTITY(1,1) NOT NULL,
+	[id_cliente_vt] [int] NULL,
+	[fecha_vt] [datetime] NULL,
+	[metodo_envio] [int] NULL,
+	[total_vt] [decimal](10, 2) NOT NULL,
+	[Estado] [bit] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_venta] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[pagos] ADD  DEFAULT ('pendiente') FOR [estado]
+GO
+ALTER TABLE [dbo].[pagos] ADD  DEFAULT (getdate()) FOR [fecha_pago]
+GO
+ALTER TABLE [dbo].[ventas] ADD  DEFAULT (getdate()) FOR [fecha_vt]
+GO
+ALTER TABLE [dbo].[clientes]  WITH CHECK ADD FOREIGN KEY([id_localidad_cliente])
+REFERENCES [dbo].[localidades] ([id])
+ON DELETE SET NULL
+GO
+ALTER TABLE [dbo].[clientes]  WITH CHECK ADD FOREIGN KEY([id_provincia_cliente])
+REFERENCES [dbo].[provincias] ([id])
+ON DELETE SET NULL
+GO
+ALTER TABLE [dbo].[detalle_ventas]  WITH CHECK ADD FOREIGN KEY([id_producto_dt])
+REFERENCES [dbo].[productos] ([id_producto])
+GO
+ALTER TABLE [dbo].[detalle_ventas]  WITH CHECK ADD FOREIGN KEY([id_venta_dt])
+REFERENCES [dbo].[ventas] ([id_venta])
+GO
+ALTER TABLE [dbo].[localidades]  WITH CHECK ADD FOREIGN KEY([id_provincia])
+REFERENCES [dbo].[provincias] ([id])
+GO
+ALTER TABLE [dbo].[pagos]  WITH CHECK ADD FOREIGN KEY([id_venta])
+REFERENCES [dbo].[ventas] ([id_venta])
+GO
+ALTER TABLE [dbo].[productos]  WITH CHECK ADD FOREIGN KEY([id_categoria_producto])
+REFERENCES [dbo].[categorias] ([id_categoria])
+GO
+ALTER TABLE [dbo].[productos]  WITH CHECK ADD FOREIGN KEY([id_temporada_producto])
+REFERENCES [dbo].[Temporadas] ([id_Temporada])
+GO
+ALTER TABLE [dbo].[ventas]  WITH CHECK ADD FOREIGN KEY([id_cliente_vt])
+REFERENCES [dbo].[clientes] ([id_cliente])
+GO
+/****** Object:  StoredProcedure [dbo].[sp_AgregarCategoria]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+--Categorias
+CREATE PROCEDURE [dbo].[sp_AgregarCategoria]
+    @Nombre VARCHAR(500),
+    @Estado BIT,
+    @Mensaje VARCHAR(500) OUTPUT,
+    @Resultado INT OUTPUT
+AS
+BEGIN
+    SET @Resultado = 0
+
+    IF NOT EXISTS (SELECT * FROM categorias WHERE nombre_categoria = @Nombre)
+    BEGIN
+        INSERT INTO categorias (nombre_categoria, Estado)
+        VALUES (@Nombre, @Estado)
+        
+        SET @Resultado = SCOPE_IDENTITY()
+    END
+    ELSE
+    BEGIN
+        SET @Mensaje = 'La categoría ya existe'
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_AgregarProducto]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+--Productos
+
+CREATE PROCEDURE [dbo].[sp_AgregarProducto]
+    @nombre_producto VARCHAR(100),
+    @descripcion_producto TEXT,
+    @precio_producto DECIMAL(10,2),
+    @stock_producto INT,
+    @id_categoria_producto INT,
+    @id_temporada_producto INT,
+    @Estado BIT,
+    @Resultado INT OUTPUT,
+    @Mensaje VARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET @Resultado = 0
+	IF NOT EXISTS (SELECT * FROM productos WHERE nombre_producto = @nombre_producto)
+    BEGIN 
+        INSERT INTO productos (
+            nombre_producto,
+            descripcion_producto,
+            precio_producto,
+            stock_producto,
+            id_categoria_producto,
+            id_temporada_producto,
+            Estado
+        )
+        VALUES (
+            @nombre_producto,
+            @descripcion_producto,
+            @precio_producto,
+            @stock_producto,
+            @id_categoria_producto,
+            @id_temporada_producto,
+            @Estado
+        );
+
+        SET @Resultado = SCOPE_IDENTITY()
+    END 
+	ELSE
+        SET @Mensaje = 'El producto ya existe'
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_AgregarTemporada]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ========================================
+-- Procedimiento para Agregar Temporada
+-- ========================================
+CREATE PROCEDURE [dbo].[sp_AgregarTemporada]
+    @Nombre VARCHAR(500),
+    @Estado BIT,
+    @Mensaje VARCHAR(500) OUTPUT,
+    @Resultado INT OUTPUT
+AS
+BEGIN
+    SET @Resultado = 0
+    SET @Mensaje = ''
+
+    IF NOT EXISTS (SELECT 1 FROM Temporadas WHERE nombre_Temporada = @Nombre)
+    BEGIN
+        INSERT INTO Temporadas (nombre_Temporada, Estado)
+        VALUES (@Nombre, @Estado)
+
+        SET @Resultado = SCOPE_IDENTITY()
+    END
+    ELSE
+    BEGIN
+        SET @Mensaje = 'La temporada ya existe'
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_EditarCategoria]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_EditarCategoria]
+    @ID INT,
+    @Nombre VARCHAR(500),
+    @Estado BIT,
+    @Mensaje VARCHAR(500) OUTPUT,
+    @Resultado INT OUTPUT
+AS
+BEGIN
+    SET @Resultado = 0
+
+    IF NOT EXISTS (
+        SELECT * FROM categorias 
+        WHERE nombre_categoria = @Nombre AND id_categoria != @ID
+    )
+    BEGIN
+        UPDATE categorias
+        SET nombre_categoria = @Nombre,
+            Estado = @Estado
+        WHERE id_categoria = @ID
+
+        SET @Resultado = 1
+    END
+    ELSE
+    BEGIN
+        SET @Mensaje = 'El nombre de la categoría ya existe'
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_EditarProducto]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_EditarProducto]
+    @id_producto INT,
+    @nombre_producto VARCHAR(100),
+    @descripcion_producto TEXT,
+    @precio_producto DECIMAL(10,2),
+    @stock_producto INT,
+    @id_categoria_producto INT,
+    @id_temporada_producto INT,
+    @Estado BIT,
+    @Resultado INT OUTPUT,
+    @Mensaje VARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET @Resultado = 0
+
+        IF NOT EXISTS (SELECT * FROM productos WHERE nombre_producto = @nombre_producto AND id_producto != @id_producto)
+        BEGIN
+            UPDATE productos
+            SET nombre_producto = @nombre_producto,
+                descripcion_producto = @descripcion_producto,
+                precio_producto = @precio_producto,
+                stock_producto = @stock_producto,
+                id_categoria_producto = @id_categoria_producto,
+                id_temporada_producto = @id_temporada_producto,
+                Estado = @Estado
+            WHERE id_producto = @id_producto
+
+            SET @Resultado = 1
+        END
+        ELSE
+            SET @Mensaje = 'El producto no existe.'
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_EditarTemporada]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- ========================================
+-- Procedimiento para Editar Temporada
+-- ========================================
+CREATE PROCEDURE [dbo].[sp_EditarTemporada]
+    @ID INT,
+    @Nombre VARCHAR(500),
+    @Estado BIT,
+    @Mensaje VARCHAR(500) OUTPUT,
+    @Resultado INT OUTPUT
+AS
+BEGIN
+    SET @Resultado = 0
+    SET @Mensaje = ''
+
+    IF NOT EXISTS (
+        SELECT 1 FROM Temporadas 
+        WHERE nombre_Temporada = @Nombre AND id_Temporada != @ID
+    )
+    BEGIN
+        UPDATE Temporadas
+        SET nombre_Temporada = @Nombre,
+            Estado = @Estado
+        WHERE id_Temporada = @ID
+
+        SET @Resultado = 1
+    END
+    ELSE
+    BEGIN
+        SET @Mensaje = 'El nombre de la temporada ya existe'
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_EditarUsuario]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[sp_EditarUsuario](
+    @ID INT,
+    @Nombre VARCHAR(100),
+    @Correo VARCHAR(100),
+    @Estado BIT,
+    @Mensaje VARCHAR(500) OUTPUT,
+    @Resultado INT OUTPUT
+)
+AS
+BEGIN
+    SET @Resultado = 0
+    IF NOT EXISTS (SELECT * FROM usuarios WHERE email_usuario = @Correo AND id_usuario != @ID)
+    BEGIN
+        UPDATE usuarios SET
+            nombre_usuario = @Nombre,
+            email_usuario = @Correo,
+            Estado = @Estado
+        WHERE id_usuario = @ID
+
+        SET @Resultado = 1
+    END
+    ELSE
+    BEGIN
+        SET @Mensaje = 'El correo del usuario ya existe'
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_EliminarCategoria]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_EliminarCategoria]
+    @IDCategoria INT,
+    @Resultado INT OUTPUT,
+    @Mensaje VARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SET @Resultado = 0;
+    SET @Mensaje = '';
+
+    -- Validar si existe la categoría
+    IF EXISTS (SELECT 1 FROM categorias WHERE id_categoria = @IDCategoria)
+    BEGIN
+        -- Validar si la categoría tiene productos
+        IF NOT EXISTS (SELECT 1 FROM productos WHERE id_categoria_producto = @IDCategoria)
+        BEGIN
+            DELETE FROM categorias WHERE id_categoria = @IDCategoria;
+            SET @Resultado = 1;
+        END
+        ELSE
+        BEGIN
+            SET @Mensaje = 'No se puede eliminar la categoría porque tiene productos asociados.';
+        END
+    END
+    ELSE
+    BEGIN
+        SET @Mensaje = 'La categoría no existe.';
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_EliminarProducto]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_EliminarProducto]
+    @id_producto INT,
+    @Resultado INT OUTPUT,
+    @Mensaje VARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET @Resultado = 0
+
+        IF NOT EXISTS (SELECT * FROM detalle_ventas dv 
+		INNER JOIN productos p on p.id_producto = dv.id_producto_dt 
+		WHERE id_producto = @id_producto)
+        BEGIN
+            DELETE FROM productos
+            WHERE id_producto = @id_producto
+
+            SET @Resultado = 1
+        END
+        ELSE
+            SET @Mensaje = 'El producto se encuentra relacionado a una venta.'
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_EliminarTemporada]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- ========================================
+-- Procedimiento para Eliminar Temporada
+-- ========================================
+CREATE PROCEDURE [dbo].[sp_EliminarTemporada]
+    @IDTemporada INT,
+    @Resultado INT OUTPUT,
+    @Mensaje VARCHAR(500) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SET @Resultado = 0;
+    SET @Mensaje = '';
+
+    -- Validar si existe la temporada
+    IF EXISTS (SELECT 1 FROM Temporadas WHERE id_Temporada = @IDTemporada)
+    BEGIN
+        -- Si en el futuro hay una relación con otra tabla, aquí iría la validación
+        DELETE FROM Temporadas WHERE id_Temporada = @IDTemporada;
+        SET @Resultado = 1;
+    END
+    ELSE
+    BEGIN
+        SET @Mensaje = 'La temporada no existe.'
+    END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ReporteDashboard]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+--- REPORTES
+
+CREATE PROC [dbo].[sp_ReporteDashboard]
+AS
+BEGIN
+
+SELECT
+
+(SELECT COUNT(*) FROM clientes) [TotalClientes],
+
+(SELECT ISNULL(SUM(cantidad_dt),0) FROM detalle_ventas) [TotalVentas],
+
+(SELECT COUNT (*) FROM productos) [TotalProductos]
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_ReporteVentas]    Script Date: 28/9/2025 14:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROC [dbo].[sp_ReporteVentas](
+    @fechainicio DATE,
+    @fechafin DATE,
+    @idVenta INT = 0
+)
+AS
+BEGIN
+    SELECT v.id_venta,  -- 👈 mejor usar id_venta en lugar de id_cliente_vt
+           CONVERT(CHAR(10), v.fecha_vt, 103) AS fecha,
+           CONCAT(c.nombre_cliente,' ',c.apellido_cliente) AS Nombre_Clientes,
+           p.nombre_producto AS PRODUCTO,
+           p.precio_producto,
+           dv.cantidad_dt,
+           v.total_vt
+    FROM detalle_ventas dv 
+    INNER JOIN productos p ON p.id_producto = dv.id_producto_dt
+    INNER JOIN ventas v ON v.id_venta = dv.id_venta_dt
+    INNER JOIN clientes c ON c.id_cliente = v.id_cliente_vt
+    WHERE v.fecha_vt BETWEEN @fechainicio AND @fechafin
+      AND v.id_venta = ISNULL(NULLIF(@idVenta,0), v.id_venta);
+END
+GO
+
+-- 🔹 Usuarios
+INSERT INTO usuarios (nombre_usuario, email_usuario, contraseña_usuario, admin_usuario, estado, codigo_recuperacion, fecha_codigo)
+VALUES
+('Mauro Castro', 'maurocastro096@gmail.com', 'Admin1234', 1, 1, NULL, NULL),
+('Dani', 'sjdkdjk@gmail.com', '12345', 0, 1, NULL, NULL),
+('Lucia Gómez', 'luciagomez845@gmail.com', 'Usuario2024', 0, 1, NULL, NULL);
+
+-- 🔹 Provincias
+INSERT INTO provincias (provincia, Estado)
+VALUES
+('Buenos Aires', 1),
+('Córdoba', 1),
+('Santa Fe', 1);
+
+-- 🔹 Localidades
+INSERT INTO localidades (id_provincia, localidad, Estado)
+VALUES
+(1, 'San Miguel', 1),
+(2, 'Villa María', 1),
+(3, 'Rosario', 1);
+
+-- 🔹 Categorías
+INSERT INTO categorias (nombre_categoria, Estado)
+VALUES
+('Electrónica', 1),
+('Hogar', 1),
+('Juguetería', 1);
+
+-- 🔹 Temporadas
+INSERT INTO Temporadas (nombre_Temporada, Estado)
+VALUES
+('Verano 2025', 1),
+('Invierno 2025', 1);
+
+-- 🔹 Clientes
+INSERT INTO clientes (nombre_cliente, dni_cliente, apellido_cliente, sexo_cliente, fechaNacimiento_cliente, telefono_cliente, direccion_cliente,
+                      nombre_usuario_cliente, email_usuario_cliente, contraseña_usuario_cliente, id_provincia_cliente, id_localidad_cliente, Estado)
+VALUES
+('Juan', '40123456', 'Pérez', 'Masculino', '1999-03-15', '1123456789', 'Calle Falsa 123', 'juanperez', 'juanperez@gmail.com', 'Cliente123', 1, 1, 1),
+('María', '42123457', 'López', 'Femenino', '2001-07-21', '1134567890', 'Av. Libertad 456', 'marialopez', 'marialopez@gmail.com', 'Cliente456', 2, 2, 1);
+
+-- 🔹 Productos
+INSERT INTO productos (nombre_producto, descripcion_producto, precio_producto, stock_producto, id_categoria_producto, id_temporada_producto, Estado)
+VALUES
+('Smartphone X100', 'Teléfono de gama media con cámara dual', 250000.00, 10, 1, 1, 1),
+('Licuadora ProMix', 'Licuadora de 5 velocidades', 85000.00, 5, 2, 1, 1),
+('Auto RC Drift', 'Auto a control remoto para derrapes', 65000.00, 8, 3, 2, 1);
+
+-- 🔹 Ventas
+INSERT INTO ventas (id_cliente_vt, fecha_vt, metodo_envio, total_vt, Estado)
+VALUES
+(1, GETDATE(), 1, 250000.00, 1),
+(2, GETDATE(), 2, 65000.00, 1);
+
+-- 🔹 Detalle Ventas
+INSERT INTO detalle_ventas (id_venta_dt, id_producto_dt, cantidad_dt, precio_unitario_dt, subtotal_dt, Estado)
+VALUES
+(1, 1, 1, 250000.00, 250000.00, 1),
+(2, 3, 1, 65000.00, 65000.00, 1);
+
+-- 🔹 Pagos
+INSERT INTO pagos (id_venta, metodo_pago, estado, fecha_pago, total_pagado)
+VALUES
+(1, 1, 'completado', GETDATE(), 250000.00),
+(2, 2, 'completado', GETDATE(), 65000.00);
